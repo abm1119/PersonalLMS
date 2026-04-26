@@ -72,6 +72,27 @@ The frontend is now pure HTML/CSS/JavaScript with no dependencies. Simply serve 
 - Backend API: http://localhost:8000
 - API Docs: http://localhost:8000/docs
 
+## 🚀 Deployment
+
+### Netlify (Recommended)
+
+This project is configured for easy deployment on Netlify.
+
+1. **Connect to GitHub:** Push your code to a GitHub repository.
+2. **Create New Site:** Link your repository to Netlify.
+3. **Configuration:**
+   - **Build Command:** `echo "No build step required"`
+   - **Publish Directory:** `frontend`
+   - **Functions Directory:** `backend`
+4. **Environment Variables:**
+   Add the following in Netlify Dashboard (**Site Settings** > **Build & deploy** > **Environment**):
+   - `SUPABASE_URL`: Your Supabase project URL
+   - `SUPABASE_KEY`: Your Supabase anon key
+   - `YOUTUBE_API_KEY`: Your Google YouTube API key
+   - `GROQ_API_KEY`: Your Groq API key
+   - `JWT_SECRET`: A long, random string for security
+   - `ALLOWED_ORIGINS`: Your Netlify URL (e.g., `https://your-site.netlify.app`)
+
 ## Project Structure
 
 ```
