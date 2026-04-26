@@ -1,9 +1,7 @@
 [build]
   publish = "frontend"
   functions = "backend"
-
-[functions]
-  node_bundle = true
+  command = "echo 'Build not required'"
 
 [[redirects]]
   from = "/api/*"
