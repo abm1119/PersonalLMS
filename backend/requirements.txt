@@ -1,13 +1,21 @@
 fastapi==0.110.0
 uvicorn[standard]==0.27.1
 gunicorn==22.0.0
+<<<<<<< HEAD
 python-multipart==0.0.26
+=======
+python-multipart==0.0.9
+>>>>>>> be2ad4b262b071f4790dbd74b16a88eee500e5bd
 supabase==2.3.4
 python-dotenv==1.2.2
 google-api-python-client==2.122.0
 groq==0.4.2
 openai==1.14.0
+<<<<<<< HEAD
 markdown==3.8.1
+=======
+markdown==3.6
+>>>>>>> be2ad4b262b071f4790dbd74b16a88eee500e5bd
 PyJWT==2.12.0
 bcrypt==5.0.0
 mangum==0.17.0
