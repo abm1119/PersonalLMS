@@ -5,8 +5,8 @@
 
 // Dynamic BASE_URL for production readiness
 const BASE_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-    ? (window.location.port === '5500' || window.location.port === '8080' ? 'http://127.0.0.1:8000/api' : '/api')
-    : '/api';
+    ? 'https://abm-111-abmlms.hf.space/api'
+    : 'https://abm-111-abmlms.hf.space/api';
 
 const APP = {
     token: localStorage.getItem('token') || null,

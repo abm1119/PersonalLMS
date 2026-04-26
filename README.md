@@ -1,126 +1,162 @@
-# LMS Suite
+# 🎓 LMS Suite: Your Distraction-Free Learning Sanctuary
 
-Personal Learning Hub - A clean, minimal learning management system.
+![Status: Amazing](https://img.shields.io/badge/Status-Amazing-brightgreen?style=for-the-badge)
+![Focus: Maximum](https://img.shields.io/badge/Focus-Maximum-blue?style=for-the-badge)
+![Architecture: Clean](https://img.shields.io/badge/Architecture-Clean--Layered-orange?style=for-the-badge)
 
-## Features
+**Escape the YouTube noise. Build your own library. Master your skills.**
 
-- **Courses**: Import YouTube playlists as structured courses
-- **Notes**: Markdown notes with tags
-- **Bookmarks**: Quick-save links and resources
+LMS Suite is a high-performance, distraction-free environment that transforms YouTube playlists into structured educational courses.
 
-## Tech Stack
+---
 
-- **Frontend**: Pure HTML/CSS/JavaScript (SPA, no frameworks)
-- **Backend**: FastAPI
-- **Database**: Supabase
-- **AI**: Groq / OpenRouter
+## 🔗 Live Deployments
 
-## Setup
+| Component | URL |
+| :--- | :--- |
+| **🚀 Frontend Application** | [https://abmlms.wasmer.app/](https://abmlms.wasmer.app/) |
+| **⚙️ Backend API** | [https://abm-111-abmlms.hf.space](https://abm-111-abmlms.hf.space) |
 
-### 1. Create Supabase Project
+---
 
-1. Go to [supabase.com](https://supabase.com) and create a new project
-2. Run the SQL schema in `supabase/schema.sql` in the SQL editor
-3. Get your project URL and anon key from Settings > API
+## 🏗️ Accurate Project Architecture
 
-### 2. Get API Keys
+### 1. System Components Diagram
+This diagram illustrates the high-level interaction between the client, the server, and external integrations.
 
-- **YouTube API**: [Google Cloud Console](https://console.cloud.google.com) > Enable YouTube Data API v3
-- **Groq API**: [console.groq.com](https://console.groq.com)
-- **OpenRouter** (optional): [openrouter.ai](https://openrouter.ai)
+```mermaid
+graph TB
+    subgraph "Client Layer (Frontend)"
+        FE[SPA: HTML/CSS/JS]
+    end
 
-### 3. Configure Environment
+    subgraph "API Layer (FastAPI Backend)"
+        API[FastAPI Router]
+        AuthS[Auth Service: bcrypt/JWT]
+        CourseS[Course Management]
+        DB[Database Interface: Supabase]
+    end
 
-Copy `.env.example` to `backend/.env`, then fill in your keys:
+    subgraph "External Intelligence"
+        YT[YouTube Data API v3]
+        AI[Groq Cloud: Llama 3]
+    end
 
-```bash
-# Backend (.env)
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_KEY=your_anon_key
-YOUTUBE_API_KEY=your_youtube_key
-GROQ_API_KEY=your_groq_key
-JWT_SECRET=your-random-secret
+    FE <-->|REST API / JWT| API
+    API --> AuthS
+    API --> CourseS
+    CourseS --> YT
+    CourseS --> AI
+    API <--> DB
 ```
 
-### 4. Run
+### 2. Sequence Diagram: Course Import Workflow
+This UML sequence diagram accurately tracks the logic flow when a user converts a YouTube playlist into a course.
 
-**Backend:**
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant YT as YouTube API
+    participant AI as Groq AI
+    participant DB as Supabase
+
+    User->>Frontend: Paste Playlist URL
+    Frontend->>Backend: POST /api/courses/ (token)
+    Backend->>YT: Fetch Playlist & Video metadata
+    YT-->>Backend: Return JSON data
+    Backend->>AI: Send titles for Syllabus generation
+    AI-->>Backend: Return Description & Objectives
+    Backend->>DB: Insert Course Record
+    Backend->>DB: Insert Multiple Video Records
+    DB-->>Backend: Confirm Persistence
+    Backend-->>Frontend: 201 Created (Course Data)
+    Frontend-->>User: Display New Course
 ```
 
-**Frontend:**
-```bash
-cd frontend
-# Option 1: Python HTTP Server
-python -m http.server 8080
+### 3. Database UML (Entity Relationship)
+The underlying data structure is optimized for fast lookups and relational integrity.
 
-# Option 2: Use the startup script
-run-frontend.bat  # Windows
-./run-frontend.sh # Linux/Mac
+```mermaid
+erDiagram
+    USER ||--o{ COURSE : "owns"
+    USER ||--o{ NOTE : "writes"
+    USER ||--o{ BOOKMARK : "saves"
+    COURSE ||--|{ VIDEO : "contains"
+    COURSE ||--o{ NOTE : "linked to"
+    VIDEO ||--o{ NOTE : "linked to"
+
+    USER {
+        uuid id PK
+        string email UK
+        string password_hash
+        string name
+        timestamp created_at
+    }
+    COURSE {
+        uuid id PK
+        uuid user_id FK
+        string playlist_id
+        string title
+        text description
+        jsonb objectives
+        int video_count
+    }
+    VIDEO {
+        uuid id PK
+        uuid course_id FK
+        string video_id
+        string title
+        int position
+        string url
+    }
+    NOTE {
+        uuid id PK
+        uuid user_id FK
+        uuid course_id FK
+        string video_id
+        text content
+        jsonb tags
+    }
 ```
 
-The frontend is now pure HTML/CSS/JavaScript with no dependencies. Simply serve the files with any HTTP server. See [frontend/FRONTEND_README.md](frontend/FRONTEND_README.md) for detailed frontend documentation.
+---
 
-### 5. Access
+## 🌟 The Philosophy: Learning Without the Noise
 
-- Frontend: http://localhost:8080
-- Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+YouTube is designed to keep you clicking. **LMS Suite** is designed to keep you learning.
 
-## 🚀 Deployment
+*   **Extraction:** We pull the core educational value (the videos) out of the social media noise.
+*   **Isolation:** We provide a clean interface where the only thing on your screen is your lesson and your notes.
+*   **Retention:** By using **Markdown Notes** and **AI-generated Objectives**, we help you move from passive watching to active mastery.
 
-### Netlify (Recommended)
+---
 
-This project is configured for easy deployment on Netlify.
+## 🛠️ Tech Stack & Technical Details
 
-1. **Connect to GitHub:** Push your code to a GitHub repository.
-2. **Create New Site:** Link your repository to Netlify.
-3. **Configuration:**
-   - **Build Command:** `echo "No build step required"`
-   - **Publish Directory:** `frontend`
-   - **Functions Directory:** `backend`
-4. **Environment Variables:**
-   Add the following in Netlify Dashboard (**Site Settings** > **Build & deploy** > **Environment**):
-   - `SUPABASE_URL`: Your Supabase project URL
-   - `SUPABASE_KEY`: Your Supabase anon key
-   - `YOUTUBE_API_KEY`: Your Google YouTube API key
-   - `GROQ_API_KEY`: Your Groq API key
-   - `JWT_SECRET`: A long, random string for security
-   - `ALLOWED_ORIGINS`: Your Netlify URL (e.g., `https://your-site.netlify.app`)
+### Backend
+- **Framework**: FastAPI (Asynchronous Python)
+- **Security**: JWT tokens, bcrypt-sha256 hashing.
+- **AI**: Groq (Llama 3.1 70B) for instant syllabus generation.
+- **Database Client**: Patched `httpx` for reliable Supabase connectivity.
 
-## Project Structure
+### Frontend
+- **Architecture**: Single Page Application (SPA).
+- **Styling**: Vanilla CSS (Flexbox/Grid).
+- **State**: Centralized `APP` object managing auth and navigation.
 
-```
-LMS_SUITE/
-├── backend/
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── routes/
-│   │   │   ├── auth.py
-│   │   │   ├── courses.py
-│   │   │   ├── notes.py
-│   │   │   └── bookmarks.py
-│   │   └── services/
-│   │       ├── database.py
-│   │       ├── youtube_service.py
-│   │       └── ai_service.py
-│   └── requirements.txt
-├── frontend/
-│   ├── index.html          # SPA entry point
-│   ├── static/
-│   │   ├── css/style.css   # All styling
-│   │   └── js/app.js       # All logic
-│   └── FRONTEND_README.md  # Frontend documentation
-├── supabase/
-│   └── schema.sql
-└── .env.example
-```
+---
 
-## License
+## 🚀 Get Started
 
-MIT
+1.  **Register:** At [abmlms.wasmer.app](https://abmlms.wasmer.app/).
+2.  **Import:** Paste your favorite YouTube Playlist URL.
+3.  **Master:** Take notes, save bookmarks, and build your resource library with **Lifetime Access**.
+
+---
+
+### 🤝 Reclaim your focus.
+*LMS Suite: Designed for those who take learning seriously.*
+
+Built with ❤️ by **[Abdul Basit](https://www.engrabm.com)**

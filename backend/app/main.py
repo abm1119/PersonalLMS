@@ -27,6 +27,9 @@ if not any(allowed_origins):
         "http://127.0.0.1:8080",      # Python HTTP Server with IP
         "http://localhost:8000",      # Any other local dev
         "http://127.0.0.1:8000",      # Any other local dev with IP
+        "http://127.0.0.1:7860",      # Hugging face Spaces (if used locally)
+        "http://localhost:7860",      # Hugging face Spaces (if used locally)
+        
     ]
 
 app.add_middleware(

@@ -23,7 +23,7 @@ This is a **Single Page Application (SPA)** that communicates directly with the 
 
 ### Prerequisites
 
-- The FastAPI backend running on `http://localhost:8000`
+- The FastAPI backend running on `https://abm-111-abmlms.hf.space`
 - A web server to serve the static files (or use a simple HTTP server)
 
 ### Option 1: Using Python's Built-in HTTP Server
@@ -54,10 +54,10 @@ Simply open `frontend/index.html` directly in your browser (note: some features 
 
 ## Backend Configuration
 
-The frontend expects the backend API at `http://localhost:8000/api`. If your backend is running on a different URL, edit the `BASE_URL` variable in `static/js/app.js`:
+The frontend expects the backend API at `https://abm-111-abmlms.hf.space/api`. If your backend is running on a different URL, edit the `BASE_URL` variable in `static/js/app.js`:
 
 ```javascript
-const BASE_URL = 'http://your-backend-url/api';
+const BASE_URL = 'https://abm-111-abmlms.hf.space/api';
 ```
 
 ## Project Structure
